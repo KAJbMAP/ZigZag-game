@@ -7,7 +7,7 @@ public class BallMoverByRigidbody : MonoBehaviour, IBallMover
     [SerializeField] private Vector3 movingUpVector = Vector3.forward;
     [SerializeField] private Vector3 movingRightVector = Vector3.right;
 
-    private bool _moveToRight = true;
+    private bool _moveToRight;
     private Rigidbody _rigidbody;
     private Vector3 currentVelocity;
 
@@ -30,15 +30,11 @@ public class BallMoverByRigidbody : MonoBehaviour, IBallMover
     public void SwapMovingDirection()
     {
         if (_moveToRight)
-        {
             currentVelocity = movingRightVector * movingSpeed;
-            _moveToRight = !_moveToRight;
-        }
         else
-        {
             currentVelocity = movingUpVector * movingSpeed;
-            _moveToRight = !_moveToRight;
-        }
+
+        _moveToRight = !_moveToRight;
     }
 
     public void SetRigidbodyVelocity(Rigidbody rigidBody, Vector3 velocity)
