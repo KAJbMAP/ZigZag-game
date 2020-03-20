@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public class TileGenerator : MonoBehaviour
 {
     public GameObject StartPlatform;
-    public GameObject[] TilesVariations;
+    public GameObject Tile, TileWithCrystlal;
     public Transform Ball;
     public Transform SpawnTilePoint;
     public Vector3[] OffsetDirection;
@@ -11,7 +11,6 @@ public class TileGenerator : MonoBehaviour
     public float TileSize = 1f;
 
     private Queue<GameObject> ActiveTiles = new Queue<GameObject>(16);
-
 
     private void OnDrawGizmos()
     {
@@ -32,14 +31,13 @@ public class TileGenerator : MonoBehaviour
         {
             Vector3 offset = OffsetDirection[Random.Range(0, OffsetDirection.Length)];
             SpawnTilePoint.Translate(offset, Space.World);
-            ActiveTiles.Enqueue(CreateNewTile(GetRandomGameObject(TilesVariations), SpawnTilePoint.position));
+            ActiveTiles.Enqueue(CreateNewTile(GetRandomTile(), SpawnTilePoint.position));
         }
 
-        if (ActiveTiles.Count > 0)
-            while (GetDistance(ActiveTiles.Peek().transform.position, Ball.position) > ActiveTileRadius)
-            {
-                Destroy(ActiveTiles.Dequeue());
-            }
+        while (GetDistance(ActiveTiles.Peek().transform.position, Ball.position) > ActiveTileRadius)
+        {
+            Destroy(ActiveTiles.Dequeue());
+        }
     }
 
     private GameObject CreateNewTile(GameObject tile, Vector3 position)
@@ -52,8 +50,8 @@ public class TileGenerator : MonoBehaviour
         return Mathf.Abs((fisrt - second).magnitude);
     }
 
-    private GameObject GetRandomGameObject(GameObject[] array)
+    private GameObject GetRandomTile()
     {
-        return array[Random.Range(0, array.Length)];        
+        return Random.value > 0.2f ? Tile : TileWithCrystlal;
     }
 }

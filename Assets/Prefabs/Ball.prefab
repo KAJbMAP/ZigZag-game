@@ -12,13 +12,15 @@ GameObject:
   - component: {fileID: 6830183595766867976}
   - component: {fileID: 6830183595766867979}
   - component: {fileID: 6830183595766867978}
+  - component: {fileID: 2386595650692758093}
   - component: {fileID: 6830183595766867975}
   - component: {fileID: 6830183595766867974}
   - component: {fileID: 6830183595766867973}
   - component: {fileID: 6830183595766867972}
+  - component: {fileID: 8283684213722602584}
   m_Layer: 0
   m_Name: Ball
-  m_TagString: Untagged
+  m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61,7 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a5ce1393639344afd3036d0eba4cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movingSpeed: 3
+  movingSpeed: 2
   movingUpVector: {x: 0, y: 0, z: 1}
   movingRightVector: {x: 1, y: 0, z: 0}
 --- !u!114 &6830183595766867978
@@ -77,6 +79,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MouseButtonIndex: 0
+--- !u!114 &2386595650692758093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6830183595766867971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70a1cfcb9b560dd4f97843a0f59f21f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!33 &6830183595766867975
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -153,3 +167,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &8283684213722602584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6830183595766867971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70a1cfcb9b560dd4f97843a0f59f21f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -2,7 +2,7 @@
 
 public class BallController : MonoBehaviour
 {    
-    private IBallMover ballMoveProvider;
+    private IBallMover _ballMoveProvider;
     private IInputController _inputProvider;
 
     private void Awake()
@@ -14,14 +14,14 @@ public class BallController : MonoBehaviour
 #elif UNITY_ANDROID
         _inputProvider = gameObject.AddComponent<TouchInputController>();
 #endif
-        ballMoveProvider = GetComponent<IBallMover>();
+        _ballMoveProvider = GetComponent<IBallMover>();
     }
 
     private void Update()
     {
         if (_inputProvider.CheckInput())
         {
-            ballMoveProvider.SwapMovingDirection();
+            _ballMoveProvider.SwapMovingDirection();
         }
     }
 }

@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crystal : BaseCrystal
+public class Crystal : MonoBehaviour, ICollectable
 {
-    public ParticleSystem DestroyParticles;
+    [SerializeField] private int Revard;
+    [SerializeField] private ParticleSystem DestroyParticles;
+    [SerializeField] private GameObject CrystalObject;
 
-    public override void Collect()
+    public int Collect()
     {
         DestroyParticles.Play();
+        CrystalObject.SetActive(false);
+        return Revard;
     }
 
     private void OnParticleSystemStopped()

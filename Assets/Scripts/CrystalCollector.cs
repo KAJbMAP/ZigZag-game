@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.Events;
 
 public class CrystalCollector : MonoBehaviour
 {
+    public event UnityAction<int> CrystalCollected;
 
     private void OnTriggerEnter(Collider other)
     {
-        var crystal = other.GetComponent<BaseCrystal>();
-        crystal?.Collect();
+        var crystal = other.GetComponent<ICollectable>();
+        if (crystal != null)
+        {
+            var revard = crystal.Collect();
+            CrystalCollected?.Invoke(revard);
+        }
     }
 }
