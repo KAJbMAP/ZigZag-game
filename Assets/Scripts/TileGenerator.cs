@@ -2,47 +2,59 @@ using UnityEngine;
 using System.Collections.Generic;
 public class TileGenerator : MonoBehaviour
 {
+    [System.Serializable]
+    public struct TileOffsetInfo
+    {
+        public Vector3 OffsetDirection;
+        public Quaternion rotation;
+    }
+
+    public Transform Ball;
     public GameObject StartPlatform;
     public GameObject Tile, TileWithCrystlal;
-    public Transform Ball;
     public Transform SpawnTilePoint;
-    public Vector3[] OffsetDirection;
+    public TileOffsetInfo[] TileSpawnHelper;
+    public float CrystalTileChance = 0.2f;
     public float ActiveTileRadius;
     public float TileSize = 1f;
 
-    private Queue<GameObject> ActiveTiles = new Queue<GameObject>(16);
+    private Queue<Tile> ActiveTiles = new Queue<Tile>(16);
 
     private void OnDrawGizmos()
     {
         if (!Ball)
             return;
-
+        
         Gizmos.DrawWireSphere(Ball.position, ActiveTileRadius);
     }
 
     private void Start()
     {
-        ActiveTiles.Enqueue(CreateNewTile(StartPlatform, Vector3.zero));
+        ActiveTiles.Enqueue(CreateNewTile(StartPlatform, Vector3.zero, Quaternion.identity));
     }
 
     private void FixedUpdate()
     {
         while (GetDistance(SpawnTilePoint.position, Ball.position) < ActiveTileRadius)
         {
-            Vector3 offset = OffsetDirection[Random.Range(0, OffsetDirection.Length)];
-            SpawnTilePoint.Translate(offset, Space.World);
-            ActiveTiles.Enqueue(CreateNewTile(GetRandomTile(), SpawnTilePoint.position));
+            var offset = TileSpawnHelper[Random.Range(0, TileSpawnHelper.Length)];
+            SpawnTilePoint.Translate(offset.OffsetDirection * TileSize, Space.World);
+            SpawnTilePoint.rotation = offset.rotation;
+            ActiveTiles.Enqueue(CreateNewTile(GetRandomTile(), SpawnTilePoint.position, SpawnTilePoint.rotation));
         }
-
-        while (GetDistance(ActiveTiles.Peek().transform.position, Ball.position) > ActiveTileRadius)
+                
+        while (ActiveTiles.Count > 0)
         {
-            Destroy(ActiveTiles.Dequeue());
+            if (GetDistance(ActiveTiles.Peek().transform.position, Ball.position) > ActiveTileRadius)
+                ActiveTiles.Dequeue().Hide();
+            else 
+                break;
         }
     }
 
-    private GameObject CreateNewTile(GameObject tile, Vector3 position)
+    private Tile CreateNewTile(GameObject tile, Vector3 position, Quaternion rotation)
     {
-        return Instantiate(tile, position, Quaternion.identity, transform);
+        return Instantiate(tile, position, rotation, transform).GetComponent<Tile>();
     }
 
     private float GetDistance(Vector3 fisrt, Vector3 second)
@@ -52,6 +64,6 @@ public class TileGenerator : MonoBehaviour
 
     private GameObject GetRandomTile()
     {
-        return Random.value > 0.2f ? Tile : TileWithCrystlal;
+        return Random.value > CrystalTileChance ? Tile : TileWithCrystlal;
     }
 }
